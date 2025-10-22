@@ -1,36 +1,34 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@lib/prisma";
-import { stripe } from "@lib/stripe";
+// app/api/stripe/webhook/route.ts
+import { headers } from 'next/headers'
+import Stripe from 'stripe'
+
+export const dynamic = 'force-dynamic'   // evita cache
+export const runtime = 'nodejs'          // Stripe requiere Node runtime
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 
 export async function POST(req: Request) {
-  const sig = req.headers.get("stripe-signature");
-  if (!sig || !process.env.STRIPE_WEBHOOK_SECRET) {
-    return NextResponse.json({ error: "No signature" }, { status: 400 });
-  }
-  const buf = await req.arrayBuffer();
-  const text = Buffer.from(buf).toString("utf8");
+  const body = await req.text() // RAW body para verificar firma
+  const sig = headers().get('stripe-signature')
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
 
-  let event;
+  if (!sig || !endpointSecret) {
+    return new Response('Missing Stripe signature or webhook secret', { status: 400 })
+  }
+
+  let event: Stripe.Event
   try {
-    event = stripe.webhooks.constructEvent(text, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch (err) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
+  } catch (err: any) {
+    return new Response(`Webhook Error: ${err.message}`, { status: 400 })
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object as any;
-    const bookingId = session?.metadata?.bookingId as string | undefined;
-    if (bookingId) {
-      await prisma.booking.update({
-        where: { id: bookingId },
-        data: { status: "paid" }
-      });
-    }
+  // TODO: maneja tus eventos aquí
+  switch (event.type) {
+    case 'checkout.session.completed':
+      // tu lógica
+      break
   }
 
-  return NextResponse.json({ received: true });
+  return new Response('OK', { status: 200 })
 }
-
-export const config = {
-  api: { bodyParser: false }
-};
