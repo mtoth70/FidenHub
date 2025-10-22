@@ -1,0 +1,29 @@
+{
+  "name": "fidenhub",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "postinstall": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "node prisma/seed.cjs"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.0",
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^3.0.2",
+    "next": "14.2.4",
+    "next-auth": "^4.24.11",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "stripe": "16.5.0",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "prisma": "^5.22.0",
+    "typescript": "5.5.4"
+  }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="500" viewBox="0 0 1600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="500" fill="white"/>
+  <g transform="translate(60,60)">
+    <rect x="0" y="0" width="380" height="380" rx="72" fill="#0EA5E9"/>
+    <path d="M110 195c0-66 54-120 120-120h54v54h-54c-37 0-66 29-66 66s29 66 66 66h54v54h-54c-66 0-120-54-120-120z" fill="white"/>
+    <circle cx="290" cy="120" r="18" fill="white"/>
+    <circle cx="290" cy="195" r="18" fill="white"/>
+    <circle cx="290" cy="270" r="18" fill="white"/>
+  </g>
+  <g transform="translate(500,135)">
+    <text x="0" y="110" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="120" font-weight="800" fill="#0F172A">Fiden</text>
+    <text x="380" y="110" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="120" font-weight="800" fill="#0EA5E9">Hub</text>
+    <text x="0" y="200" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="36" fill="#64748B">Conecta con expertos de confianza</text>
+  </g>
+</svg>
